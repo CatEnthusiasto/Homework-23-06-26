@@ -32,17 +32,21 @@ public class ProductBasket {
     }
 
     public void getBasketInfo() {
-        byte count = 0;
+        byte countSpecial = 0;
         for (Product product : basket) {
-            if (product != null) {
-                System.out.println(product);
-                count++;
+            if (product == null) {
+                continue;
+            }
+            System.out.println(product);
+            if (product.isSpecial()) {
+                countSpecial++;
             }
         }
-        if (count == 0) {
+        if (getTotalBasketPrice() == 0) {
             System.out.println("В корзине пусто.");
         } else {
             System.out.println("Итого: " + getTotalBasketPrice());
+            System.out.println("Специальных товаров: " + countSpecial);
         }
     }
 
