@@ -2,6 +2,7 @@ package org.skypro.skyshop;
 
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.exception.BestResultNotFound;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.SimpleProduct;
@@ -96,6 +97,56 @@ public class App {
             if (term != null) {
                 System.out.println(term.getStringRepresentation());
             }
+        }
+
+        System.out.println("\nTask 3.1 - Проверка исключений");
+
+        System.out.println("\nAttempt 1");
+        try {
+            SimpleProduct margarin = new SimpleProduct("Маргарин", 0);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("\nAttempt 2");
+        try {
+            DiscountedProduct chicken = new DiscountedProduct(null, 50, 50);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("\nAttempt 3");
+        try {
+            DiscountedProduct chicken = new DiscountedProduct("Курица", 50, 101);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("\nTask 3.2 - Проверка собственного исключения");
+
+        System.out.println("\nAttempt 1");
+        try {
+            Searchable found = engine.findClosestSearchable("о");
+            System.out.println("Найдено совпадение: " + found.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        System.out.println("\nAttempt 2");
+        SearchEngine emptyEngine = new SearchEngine(5);
+        try {
+            Searchable found = emptyEngine.findClosestSearchable("что-то");
+            System.out.println("Найдено совпадение: " + found.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        System.out.println("\nAttempt 3");
+        try {
+            Searchable found = engine.findClosestSearchable(null);
+            System.out.println("Найдено совпадение: " + found.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка: " + e.getMessage());
         }
     }
 }
