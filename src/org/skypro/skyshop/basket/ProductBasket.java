@@ -79,7 +79,6 @@ public class ProductBasket {
                 iterator.remove();
                 removedProducts.add(product);
                 System.out.println("Продукт с именем '" + name + "' успешно удален из корзины.");
-                System.out.println(product);
             }
         }
         if (removedProducts.isEmpty()) {

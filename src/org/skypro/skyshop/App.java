@@ -163,9 +163,16 @@ public class App {
         basketNew.addProductInBasket(apple);
         basketNew.addProductInBasket(milk);
 
-        System.out.println("\nTask 4.1, 4.2 - Удалить существующие продукты из корзины и вывести их на экран");
+        System.out.println("\nTask 4.1 - Удалить существующие продукты из корзины");
 
-        basketNew.removeProductByName("Молоко");
+        List<Product> basketRemoveds = basketNew.removeProductByName("Молоко");
+
+        System.out.println("\nTask 4.2 - Вывести удаленные продукты на экран экран");
+
+        System.out.println("Всего удалено: " + basketRemoveds.size() + " товара");
+        for (Product product: basketRemoveds) {
+            System.out.println(product);
+        }
 
         System.out.println("\nTask 4.3 - Вывести содержимое корзины с помощью метода getBasketInfo");
 
