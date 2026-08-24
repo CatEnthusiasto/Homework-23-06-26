@@ -2,23 +2,21 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Iterator;
+
 public class ProductBasket {
 
-    private final Product[] basket = new Product[5];
+    private final List<Product> basket = new LinkedList<>();
 
     public void addProductInBasket(Product product) {
         if (product == null) {
             System.out.println("Данный продукт не существует!");
             return;
         }
-        for (int i = 0; i < basket.length; i++) {
-            if (basket[i] == null) {
-                basket[i] = product;
-                System.out.println("Продукт '" + product.getName() + "' успешно добавлен в корзину!");
-                return;
-            }
-        }
-        System.out.println("Корзина переполнена. Невозможно добавить продукт.");
+        basket.add(product);
+        System.out.println("Продукт '" + product.getName() + "' успешно добавлен в корзину!");
     }
 
     public int getTotalBasketPrice() {
@@ -66,11 +64,26 @@ public class ProductBasket {
     }
 
     public void basketClear() {
-        for (int i = 0; i < basket.length; i++) {
-            if (basket[i] != null) {
-                basket[i] = null;
+        basket.clear();
+        System.out.println("Корзина успешно очищена.");
+    }
+
+    public List<Product> removeProductByName(String name) {
+        List<Product> removedProducts = new LinkedList<>();
+
+        Iterator<Product> iterator = basket.iterator();
+
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.getName().equals(name)) {
+                iterator.remove();
+                removedProducts.add(product);
+                System.out.println("Продукт с именем '" + name + "' успешно удален из корзины.");
             }
         }
-        System.out.println("Корзина успешно очищена.");
+        if (removedProducts.isEmpty()) {
+            System.out.println("Список удаленных товаров пуст.");
+        }
+        return removedProducts;
     }
 }

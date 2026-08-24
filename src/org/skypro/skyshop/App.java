@@ -5,13 +5,18 @@ import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.exception.BestResultNotFound;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
+import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.searchable.Searchable;
 
+import java.util.List;
+
 public class App {
 
     public static void main(String[] args) {
+
+        System.out.println("\n---Tasks 1.1-1.10---");
 
         SimpleProduct apple = new SimpleProduct("Яблоко", 50);
         FixPriceProduct banana = new FixPriceProduct("Банан");
@@ -29,10 +34,6 @@ public class App {
         basket.addProductInBasket(milk);
         basket.addProductInBasket(bread);
         basket.addProductInBasket(cheese);
-
-        System.out.println("\nTask 1.2 - Добавление продукта в заполненную корзину");
-        basket.addProductInBasket(meat); // Должно вывести сообщение о переполнении
-        basket.addProductInBasket(fish);  // Должно вывести сообщение о переполнении
 
         System.out.println("\nTask 1.3 - Печать содержимого корзины с несколькими товарами");
         basket.getBasketInfo();
@@ -61,8 +62,10 @@ public class App {
         basket.productExists("Хлеб");
         basket.productExists("Сыр");
 
+        System.out.println("\n---Tasks 2.1-2.3 + List Rework---");
+
         System.out.println("\nTask 2.1 - Объект типа SearchEngine, добавление всех товаров");
-        SearchEngine engine = new SearchEngine(10);
+        SearchEngine engine = new SearchEngine();
 
         engine.add(apple);
         engine.add(banana);
@@ -82,7 +85,7 @@ public class App {
         System.out.println("\nTask 2.3 - Функциональность поиска");
 
         System.out.println("\nAttempt 1");
-        Searchable[] founds = engine.search("ло");
+        List<Searchable> founds = engine.search("ло");
 
         for (Searchable term: founds) {
             if (term != null) {
@@ -98,6 +101,8 @@ public class App {
                 System.out.println(term.getStringRepresentation());
             }
         }
+
+        System.out.println("\n---Tasks 3.1-3.2---");
 
         System.out.println("\nTask 3.1 - Проверка исключений");
 
@@ -133,7 +138,7 @@ public class App {
         }
 
         System.out.println("\nAttempt 2");
-        SearchEngine emptyEngine = new SearchEngine(5);
+        SearchEngine emptyEngine = new SearchEngine();
         try {
             Searchable found = emptyEngine.findClosestSearchable("что-то");
             System.out.println("Найдено совпадение: " + found.getStringRepresentation());
@@ -148,5 +153,43 @@ public class App {
         } catch (BestResultNotFound e) {
             System.out.println("Ошибка: " + e.getMessage());
         }
+
+        System.out.println("\n---Tasks 4.1-4.6---\n");
+
+        ProductBasket basketNew = new ProductBasket();
+
+        basketNew.addProductInBasket(banana);
+        basketNew.addProductInBasket(milk);
+        basketNew.addProductInBasket(apple);
+        basketNew.addProductInBasket(milk);
+
+        System.out.println("\nTask 4.1 - Удалить существующие продукты из корзины");
+
+        List<Product> basketRemoveds = basketNew.removeProductByName("Молоко");
+
+        System.out.println("\nTask 4.2 - Вывести удаленные продукты на экран экран");
+
+        System.out.println("Всего удалено: " + basketRemoveds.size() + " товара");
+        for (Product product: basketRemoveds) {
+            System.out.println(product);
+        }
+
+        System.out.println("\nTask 4.3 - Вывести содержимое корзины с помощью метода getBasketInfo");
+
+        basketNew.getBasketInfo();
+
+        System.out.println("\nTask 4.4, 4.5 - Удалить несуществующий продукт");
+
+        basketNew.removeProductByName("Черешня");
+
+        System.out.println("\nTask 4.6 - Повторный вывод корзины");
+
+        basketNew.getBasketInfo();
+
+
+
+
+
+
     }
 }
