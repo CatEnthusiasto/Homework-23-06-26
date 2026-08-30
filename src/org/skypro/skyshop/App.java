@@ -12,6 +12,7 @@ import org.skypro.skyshop.searchable.Searchable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class App {
 
@@ -63,7 +64,7 @@ public class App {
         basket.productExists("Хлеб");
         basket.productExists("Сыр");
 
-        System.out.println("\n---Tasks 2.1-2.3 + List and Map Rework---");
+        System.out.println("\n---Tasks 2.1-2.3 + Set and Comparator rework---");
 
         System.out.println("\nTask 2.1 - Объект типа SearchEngine, добавление всех товаров");
         SearchEngine engine = new SearchEngine();
@@ -86,20 +87,20 @@ public class App {
         System.out.println("\nTask 2.3 - Функциональность поиска");
 
         System.out.println("\nAttempt 1");
-        Map<String, Searchable> founds = engine.search("ло");
+        Set<Searchable> founds = engine.search("ло");
 
-        for (Searchable term: founds.values()) {
-            if (term != null) {
-                System.out.println(term.getStringRepresentation());
+        for (Searchable searchable: founds) {
+            if (searchable != null) {
+                System.out.println(searchable.getStringRepresentation());
             }
         }
 
         System.out.println("\nAttempt 2");
         founds = engine.search("молоко");
 
-        for (Searchable term: founds.values()) {
-            if (term != null) {
-                System.out.println(term.getStringRepresentation());
+        for (Searchable searchable: founds) {
+            if (searchable != null) {
+                System.out.println(searchable.getStringRepresentation());
             }
         }
 
