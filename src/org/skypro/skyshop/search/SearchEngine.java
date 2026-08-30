@@ -1,25 +1,23 @@
 package org.skypro.skyshop.search;
 
+import org.skypro.skyshop.comparator.ByLengthComparator;
 import org.skypro.skyshop.exception.BestResultNotFound;
 import org.skypro.skyshop.searchable.Searchable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.TreeSet;
 
 public class SearchEngine {
 
-    private final List<Searchable> searchables;
+    private final Set<Searchable> searchables;
 
     public SearchEngine() {
-        this.searchables = new ArrayList<>();
+        this.searchables = new HashSet<>();
     }
 
-    public Map<String, Searchable> search(String string) {
-        Map<String, Searchable> foundSearchables = new TreeMap<>();
+    public Set<Searchable> search(String string) {
+        Set<Searchable> foundSearchables = new TreeSet<>(new ByLengthComparator());
 
         if (string == null) {
             System.out.println("Строка пустая!");
@@ -28,7 +26,7 @@ public class SearchEngine {
 
         for (Searchable searchable : searchables) {
             if (searchable != null && searchable.getSearchTerm().contains(string)) {
-                foundSearchables.put(searchable.getName(), searchable);
+                foundSearchables.add(searchable);
             }
         }
         return foundSearchables;
@@ -49,32 +47,28 @@ public class SearchEngine {
             throw new BestResultNotFound();
         }
 
-        int bestIndex = 0;
+        Searchable closestSearchable = null;
         int maxCount = -1;
 
-        for (int i = 0; i < searchables.size(); i++) {
-            if (searchables.get(i) == null) {
-                continue;
-            }
-
+        for (Searchable searchable: searchables) {
             int count = 0;
             int index = 0;
-            int foundIndex = searchables.get(i).getSearchTerm().indexOf(search,index);
+            int foundIndex = searchable.getSearchTerm().indexOf(search,index);
 
             while (foundIndex != -1) {
                 count++;
                 index = foundIndex + search.length();
-                foundIndex = searchables.get(i).getSearchTerm().indexOf(search,index);
+                foundIndex = searchable.getSearchTerm().indexOf(search,index);
             }
             if (count > maxCount) {
                 maxCount = count;
-                bestIndex = i;
+                closestSearchable = searchable;
             }
         }
-        if (maxCount == -1) {
+        if (closestSearchable == null) {
             throw new BestResultNotFound("Совпадений со строкой '" + search + "' не найдено!");
         } else {
-            return searchables.get(bestIndex);
+            return closestSearchable;
         }
     }
 }
