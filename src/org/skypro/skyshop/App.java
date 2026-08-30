@@ -187,10 +187,5 @@ public class App {
 
         basketNew.getBasketInfo();
 
-
-
-
-
-
     }
 }

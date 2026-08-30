@@ -13,14 +13,7 @@ public class ProductBasket {
             System.out.println("Данный продукт не существует!");
             return;
         }
-//      basket.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
-//      Код ниже хоть и объемный, но легок в понимании
-        List<Product> sameProducts = new ArrayList<>();
-        if (basket.containsKey(product.getName())) {
-            sameProducts = basket.get(product.getName());
-        }
-        sameProducts.add(product);
-        basket.put(product.getName(), sameProducts);
+        basket.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
         System.out.println("Продукт '" + product.getName() + "' успешно добавлен в корзину!");
     }
 
